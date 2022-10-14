@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <ul>
+        <li v-for="(item,index) in list">
+            {{item}}
+            <button @click="delItem(index)">删除</button>
+        </li>
+    </ul>
+    <input name="item" v-model="item">
+    <button @click="addItem">添加</button>
+</div>
+
+
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            list: ["app", "orange", "jucie"],
+            item: ""
+        },
+        methods: {
+            addItem: function () {
+                this.list.push(this.item);
+                this.item = "";
+            },
+            delItem: function (index) {
+                this.list.splice(index, 1);
+            }
+        }
+    })
+</script>
