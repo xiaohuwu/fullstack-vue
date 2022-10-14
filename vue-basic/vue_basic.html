@@ -16,18 +16,31 @@
     </ul>
     <input name="item" v-model="item">
     <button @click="addItem">添加</button>
+    <button :title="title"  :class="{'red' : toggle }" @click="addToggle"> hover on me  </button>
+
+    <p >{{ remessage }} </p>
 </div>
 
 
 </body>
 </html>
 
+<style>
+    .red{
+        color: red;
+        font-size: 15px;
+    }
+</style>
+
 <script>
     new Vue({
         el: "#app",
         data: {
             list: ["app", "orange", "jucie"],
-            item: ""
+            item: "",
+            title: "this is title",
+            toggle: true,
+            message: "hello world"
         },
         methods: {
             addItem: function () {
@@ -36,6 +49,14 @@
             },
             delItem: function (index) {
                 this.list.splice(index, 1);
+            },
+            addToggle(){
+                this.toggle = !this.toggle;
+            }
+        },
+        computed:{
+            remessage: function () {
+              return   this.message.split("").reverse().join("");
             }
         }
     })
