@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="../public/styles.css"/>
+</head>
+
+<body>
+<div id="app">
+    <h2 class="title has-text-centered dividing-header">UpVote!</h2>
+
+    <article v-for="submission in sortedSubmissions"
+             v-bind:key="submission.id"
+             class="media"
+             v-bind:class="{ 'blue-border': submission.votes >=20 }">
+        <task :submission="submission" :submissions="sortedSubmissions"/>
+    </article>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</body>
+
+</html>
+
+<script>
+    let template = `<div style="display: flex; width: 100%">
+   <figure className="media-left">
+     <img class="left-image" v-bind:src="submission.submissionImage">
+   </figure>
+   <div className="media-content">
+     <div className="content">
+       <p>
+         <strong>
+           <a v-bind:href="submission.url" className="has-text-info">
+             {{submission.title}}
+           </a>
+           <span className="tag is-small">#{{submission.id}}</span>
+         </strong>
+         <br>
+           {{submission.description}}
+         </br>
+         <small className="is-size-7">
+           Submitted by:
+           <img class="image-head" v-bind:src="submission.avatar">
+         </small>
+       </p>
+     </div>
+   </div>
+   <div className="media-right">
+      <span className="icon is-small" v-on:click="upvote(submission.id)">
+        <i className="fa fa-chevron-up"></i>
+        <strong className="has-text-info">{{submission.votes}}</strong>
+      </span>
+   </div>
+ </div>`
+
+
+    const submissions = [
+        {
+            id: 1,
+            title: 'Yellow Pail',
+            description: 'On-demand sand castle construction expertise.',
+            url: '#',
+            votes: 16,
+            avatar: '../public/images/avatars/daniel.jpg',
+            submissionImage: '../public/images/submissions/image-yellow.png',
+        },
+        {
+            id: 2,
+            title: 'Supermajority: The Fantasy Congress League',
+            description: 'Earn points when your favorite politicians pass legislation.',
+            url: '#',
+            votes: 11,
+            avatar: '../public/images/avatars/kristy.png',
+            submissionImage: '../public/images/submissions/image-rose.png',
+        },
+        {
+            id: 3,
+            title: 'Tinfoild: Tailored tinfoil hats',
+            description: 'We have your measurements and shipping address.',
+            url: '#',
+            votes: 17,
+            avatar: '../public/images/avatars/veronika.jpg',
+            submissionImage: '../public/images/submissions/image-steel.png',
+        },
+        {
+            id: 4,
+            title: 'Haught or Naught',
+            description: 'High-minded or absent-minded? You decide.',
+            url: '#',
+            votes: 9,
+            avatar: '../public/images/avatars/molly.png',
+            submissionImage: '../public/images/submissions/image-aqua.png',
+        }
+    ];
+
+    var vm = new Vue({
+        el: "#app",
+        data: {submissions: submissions},
+        computed: {
+            sortedSubmissions: function () {
+                return this.submissions.sort((a, b) => {
+                    return b.votes - a.votes
+                });
+            }
+        },
+        components: {
+            "task": {
+                template: template,
+                props: ['submission', 'submissions'],
+                methods: {
+                    upvote: function (id) {
+                        let submission = this.submissions.find((item) => {
+                            return item.id === id
+                        })
+                        submission.votes++;
+                    }
+                }
+            }
+        }
+        // 选项
+    })
+
+
+</script>
+
+<style type="text/css">
+    .left-image {
+        width: 64px;
+        height: auto;
+    }
+
+    .image-head{
+        height: 24px;
+        width: 24px;
+        display: inline;
+        position: relative;
+        top: 5px;
+        border-radius: 20px;
+    }
+</style>
+

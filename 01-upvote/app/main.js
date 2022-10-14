@@ -36,6 +36,7 @@ const submissionComponent = {
       const submission = this.submissions.find(
         submission => submission.id === submissionId
       );
+
       submission.votes++;
     }
   }
